@@ -4,7 +4,7 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 
-import com.devinlynch.ezcache.util.CacheableHelper;
+import com.devinlynch.ezcache.util.CacheableMethodHelper;
 
 /**
  * Wraps any Object (usually a service) who has methods described with the {@link CacheReturnValue}
@@ -38,7 +38,7 @@ public class CacheWrapper implements InvocationHandler {
 			throws Throwable {
 		
 		// Check to see if the result is held in cache, if so return it
-		CacheableHelper helper = new CacheableHelper(method, args);
+		CacheableMethodHelper helper = new CacheableMethodHelper(method, args);
 		Object cachedObject = helper.get();
 		if(cachedObject != null) {
 			return cachedObject;

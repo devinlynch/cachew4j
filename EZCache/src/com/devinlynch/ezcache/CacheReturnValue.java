@@ -8,22 +8,4 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 public @interface CacheReturnValue {
-	/**
-	 * The class which is to be used for getting and putting into the cache.  This should be a subclass
-	 * of {@link AbstractCache}
-	 * @return
-	 */
-	Class<? extends AbstractCache<?>> cacheClass();
-	
-	/**
-	 * The Name of the method which is used to put into the cache
-	 * @return
-	 */
-	String putMethodName() default "put";
-	
-	/**
-	 * The Name of the method which is used to get from the cache
-	 * @return
-	 */
-	String getMethodName() default "get";
 }
