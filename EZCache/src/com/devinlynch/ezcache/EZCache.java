@@ -4,8 +4,6 @@ import net.sf.ehcache.Cache;
 import net.sf.ehcache.CacheManager;
 import net.sf.ehcache.Element;
 import net.sf.ehcache.ObjectExistsException;
-import net.sf.ehcache.hibernate.EhCache;
-
 
 public class EZCache {	
 	
@@ -45,6 +43,11 @@ public class EZCache {
 		return e.getObjectValue();
 	}
 	
+	private void deleteFromCache(EZCacheKey<?> key) {
+		Cache cache = getOrCreateCache(key.getCacheableClass());
+		cache.remove(key);
+	}
+	
 	/**
 	 * Gets the object from the cache given the key that would be returned by the objects 
 	 * {@link Cacheable#getCacheKey()}
@@ -58,8 +61,6 @@ public class EZCache {
 		return (T) getFromCache(key);
 	}
 	
-	
-	
 	/**
 	 * Put a object in the cache.  The key used will be the one defined by {@link Cacheable#getCacheKey()} 
 	 * @param obj The object to put in the cache
@@ -67,7 +68,22 @@ public class EZCache {
 	public void put(Cacheable obj) {
 		putIntoCache(obj);
 	}
-
+	
+	/**
+	 * Delete an object from the cache 
+	 */
+	public void delete(EZCacheKey<?> key) {
+		deleteFromCache(key);
+	}
+	
+	/**
+	 * Delete an object from the cache  
+	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public void delete(Cacheable obj) {
+		deleteFromCache(new EZCacheKey(obj.getCacheKey(), obj.getClass()));
+	}
+	
 	public String getCacheName(Class<?> cachedObjectClass) {
 		return "EZCache[REGCACHE:class="+cachedObjectClass.toString()+"]";
 	}
