@@ -6,17 +6,17 @@ import net.sf.ehcache.Element;
 
 /**
  * Implementations of this class handle putting / getting from a cache.  The purpose
- * is to be used in conjunction with the {@link Cacheable} annotation.  To have a method
- * supported for caching, you first describe it with the {@link Cacheable} annotation. You
+ * is to be used in conjunction with the {@link CacheReturnValue} annotation.  To have a method
+ * supported for caching, you first describe it with the {@link CacheReturnValue} annotation. You
  * then create a subclass of this class which will be in charge of putting and getting
- * from the cache.  Set the {@link Cacheable#cacheClass()} to be your created subclass.  You
+ * from the cache.  Set the {@link CacheReturnValue#cacheClass()} to be your created subclass.  You
  * then must implement the {@link AbstractCache#getCacheKeyGivenArgs(Object[])} to return a 
  * unique cache key given the arguments that were given to the method that was described with
- * the {@link Cacheable} annotation.  The final step for enabling caching is to wrap the object
+ * the {@link CacheReturnValue} annotation.  The final step for enabling caching is to wrap the object
  * that contains the method you want cached using {@link CacheWrapper#wrapObject(Object)}.
  * @author devinlynch
  */
-public abstract class AbstractCache<OBJECT_BEING_CACHED_TYPE> {
+public abstract class AbstractCache<OBJECT_BEING_CACHED_TYPE extends Cacheable> {
 	/**
 	 * The name of the cache as defined in your ehcache.xml file.  If the cache is not defined
 	 * then there will be <b>NO</b> caching taking place.
@@ -37,6 +37,10 @@ public abstract class AbstractCache<OBJECT_BEING_CACHED_TYPE> {
 			return false;
 		
 		Element e = new Element(key, val);
+		if(val instanceof Cacheable) {
+			e.setTimeToIdle(((Cacheable)val).getTimeToIdleSeconds());
+			e.setTimeToLive(((Cacheable)val).getTimeToLiveSeconds());
+		}
 		cache.put(e);
 		return true;
 	}
@@ -60,7 +64,7 @@ public abstract class AbstractCache<OBJECT_BEING_CACHED_TYPE> {
 	
 	/**
 	 * Gets a object stored in the cache given the arguments that were given to the method
-	 * described with the {@link Cacheable} annotation.
+	 * described with the {@link CacheReturnValue} annotation.
 	 * @param args
 	 * @return
 	 */
@@ -74,8 +78,8 @@ public abstract class AbstractCache<OBJECT_BEING_CACHED_TYPE> {
 	
 	/**
 	 * Put a object in the cache given the arguments that were given to the method described
-	 * with the {@link Cacheable} annotation.
-	 * @param args The arguments given to the method described with {@link Cacheable}
+	 * with the {@link CacheReturnValue} annotation.
+	 * @param args The arguments given to the method described with {@link CacheReturnValue}
 	 * @param obj The obejct to put in the cache
 	 * @return
 	 */

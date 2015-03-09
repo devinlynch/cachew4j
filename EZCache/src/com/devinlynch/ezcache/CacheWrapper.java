@@ -7,7 +7,7 @@ import java.lang.reflect.Proxy;
 import com.devinlynch.ezcache.util.CacheableHelper;
 
 /**
- * Wraps any Object (usually a service) who has methods described with the {@link Cacheable}
+ * Wraps any Object (usually a service) who has methods described with the {@link CacheReturnValue}
  * annotation.  Call {@link CacheWrapper#wrapService(Object)} to decorate your object with
  * caching.
  * @author devinlynch
@@ -18,7 +18,7 @@ public class CacheWrapper implements InvocationHandler {
 	
 	/**
 	 * Call this to wrap any object for caching.  Invoking the returned object will cause
-	 * for caching on invocation iff the method is described with the {@link Cacheable} 
+	 * for caching on invocation iff the method is described with the {@link CacheReturnValue} 
 	 * annotation.
 	 * @param service
 	 * @return

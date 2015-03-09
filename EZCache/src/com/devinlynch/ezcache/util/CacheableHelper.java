@@ -5,11 +5,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import com.devinlynch.ezcache.Cacheable;
+import com.devinlynch.ezcache.CacheReturnValue;
 
 /**
  * A helper class which can put or get objects from a cache if a method is described with
- * a {@link Cacheable} annotation.
+ * a {@link CacheReturnValue} annotation.
  * @author devinlynch
  *
  */
@@ -24,12 +24,12 @@ public class CacheableHelper {
 	
 	/**
 	 * Puts the given object into the cache iff the {@link CacheableHelper#method} is described
-	 * with a {@link Cacheable} annotation.
+	 * with a {@link CacheReturnValue} annotation.
 	 * @param o
 	 */
 	public void put(Object o) {
 		// First check to see if the method is cache-compliant
-		Cacheable cacheable = getCacheable();
+		CacheReturnValue cacheable = getCacheable();
 		if(cacheable == null || o == null)
 			return;
 		Class<?> cacheClass = cacheable.cacheClass();
@@ -61,7 +61,7 @@ public class CacheableHelper {
 	
 	public Object get() {
 		// First check if the method is cache-compliant
-		Cacheable cacheable = getCacheable();
+		CacheReturnValue cacheable = getCacheable();
 		if(cacheable == null)
 			return null;
 		try {
@@ -82,7 +82,7 @@ public class CacheableHelper {
 	}
 	
 	
-	protected Cacheable getCacheable() {
-		return method.getAnnotation(Cacheable.class);
+	protected CacheReturnValue getCacheable() {
+		return method.getAnnotation(CacheReturnValue.class);
 	}
 }
