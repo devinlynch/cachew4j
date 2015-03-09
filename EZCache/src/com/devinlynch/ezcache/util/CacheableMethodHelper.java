@@ -68,11 +68,11 @@ public class CacheableMethodHelper {
 		}
 		try {
 			EZCache ezCache = new EZCache();
-			String mappedKeyToObject = getMappedKeyToObject();
-			if(mappedKeyToObject == null)
+			CacheableMapping mappingToObject = getMappingToObject();
+			if(mappingToObject == null)
 				return null;
 			@SuppressWarnings({ "rawtypes", "unchecked" })
-			Object object = ezCache.get(new EZCacheKey(mappedKeyToObject, method.getReturnType()));
+			Object object = ezCache.get(new EZCacheKey(mappingToObject.getMappedObjectId(), mappingToObject.getMappedObjectClass()));
 			return object;
 		} catch (Exception e) {
 			System.out.println("Error getting from cache");
@@ -92,12 +92,10 @@ public class CacheableMethodHelper {
 		ez.put(mapping);
 	}
 	
-	public String getMappedKeyToObject() {
+	public CacheableMapping getMappingToObject() {
 		EZCache ez = new EZCache();
 		CacheableMapping mapping = (CacheableMapping) ez.get(new EZCacheKey<CacheableMapping>(getMappingKey(), CacheableMapping.class));
-		if(mapping == null)
-			return null;
-		return mapping.getMappedObjectId();
+		return mapping;
 	}
 	
 	
