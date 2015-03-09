@@ -63,7 +63,7 @@ public class CacheableMethodHelper {
 		CacheReturnValue annotation = getAnnotation();
 		if(annotation == null)
 			return null;
-		if(!method.getReturnType().isAssignableFrom(Cacheable.class)) {
+		if(!Cacheable.class.isAssignableFrom(method.getReturnType())) {
 			throw new RuntimeException("The return type of every method described with CacheReturnValue must implement Cacheable");
 		}
 		try {

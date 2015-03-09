@@ -24,9 +24,9 @@ public class CacheWrapper implements InvocationHandler {
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
-	public static<T> T wrapObject(T service) {
+	public static<T> T wrapObject(T service, Class<?> interfaceClass) {
 		CacheWrapper wrapper = new CacheWrapper(service);
-		return (T) Proxy.newProxyInstance(service.getClass().getClassLoader(), new Class[]{service.getClass()}, wrapper);
+		return (T) Proxy.newProxyInstance(service.getClass().getClassLoader(), new Class[]{interfaceClass}, wrapper);
 	}
 	
 	protected CacheWrapper(Object serviceToWrap) {
@@ -38,7 +38,7 @@ public class CacheWrapper implements InvocationHandler {
 			throws Throwable {
 		
 		// Check to see if the result is held in cache, if so return it
-		CacheableMethodHelper helper = new CacheableMethodHelper(method, args);
+		CacheableMethodHelper helper = new CacheableMethodHelper(serviceToWrap.getClass().getMethod(method.getName(), method.getParameterTypes()), args);
 		Object cachedObject = helper.get();
 		if(cachedObject != null) {
 			return cachedObject;

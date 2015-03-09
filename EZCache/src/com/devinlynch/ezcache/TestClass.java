@@ -4,28 +4,55 @@ import java.lang.reflect.Method;
 
 public class TestClass {
 	
-	private class Foo {
-		public void doit() {
-			
+	public static class Bar implements Cacheable {
+		private static final long serialVersionUID = 1L;
+		private String text;
+		
+		public Bar(String t) {
+			text = t;
 		}
-		public void doit(String s) {
-			
+		
+		@Override
+		public String getCacheKey() {
+			return text;
+		}
+
+		@Override
+		public int getTimeToLiveSeconds() {
+			// TODO Auto-generated method stub
+			return 0;
+		}
+
+		@Override
+		public int getTimeToIdleSeconds() {
+			// TODO Auto-generated method stub
+			return 0;
+		}
+		
+	}
+	
+	public static interface IFoo {
+		public Bar doit(String s);
+	}
+	
+	public static class Foo implements IFoo {
+		int i = 0;
+		@CacheReturnValue
+		public Bar doit(String s) {
+			return new Bar(s+(i++));
 		}
 	}
 	
 	public static void main(String[] args) {
-		Method[] methods = Foo.class.getMethods();
+		IFoo foo = CacheWrapper.wrapObject(new Foo(), IFoo.class);
 		
-		System.out.println(getMappingCacheName(methods[0]));
-		System.out.println(getMappingCacheName(methods[1]));
+		System.out.println(foo.doit("blah").text);
+		System.out.println(foo.doit("blah").text);
+		System.out.println(foo.doit("foo").text);
+		System.out.println(foo.doit("foo").text);
+		System.out.println(foo.doit("blah").text);
+		
 	}
 	
-	private static String getMappingCacheName(Method method) {
-		String ps = "";
-		for(Class<?> c : method.getParameterTypes()) {
-			ps += c.getName();
-		}
-		
-		return "EZCache[METHODMAPPING:methodHashCode=[hc=["+method.hashCode()+"]numP=["+method.getParameterTypes().length+"]ps=["+ps+"]]]";
-	}
+
 }
