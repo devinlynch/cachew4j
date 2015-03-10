@@ -33,18 +33,25 @@ public class TestClass {
 	
 	public static interface IFoo {
 		public Bar doit(String s);
+		public String doit2(String s);
 	}
 	
 	public static class Foo implements IFoo {
 		int i = 0;
+		int z = 0;
 		@CacheReturnValue
 		public Bar doit(String s) {
 			return new Bar(s+(i++));
 		}
+		
+		@CacheReturnValue
+		public String doit2(String s) {
+			return s + (z++);
+		}
 	}
 	
 	public static void main(String[] args) {
-		IFoo foo = CacheWrapper.wrapObject(new Foo(), IFoo.class);
+		IFoo foo = CacheWrapper.wrapObject(new Foo(), IFoo.class, Foo.class);
 		
 		System.out.println(foo.doit("blah").text);
 		System.out.println(foo.doit("blah").text);
@@ -52,6 +59,11 @@ public class TestClass {
 		System.out.println(foo.doit("foo").text);
 		System.out.println(foo.doit("blah").text);
 		
+		System.out.println("------");
+		System.out.println(foo.doit2("blah"));
+		System.out.println(foo.doit2("blah"));
+		System.out.println(foo.doit2("blah2"));
+		System.out.println(foo.doit2("blah"));
 	}
 	
 

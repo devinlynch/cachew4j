@@ -8,4 +8,6 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 public @interface CacheReturnValue {
+	public int timeToLiveSeconds() default 30;
+	public int timeToIdleSeconds() default 30;
 }

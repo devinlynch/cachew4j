@@ -1,13 +1,7 @@
 package com.devinlynch.ezcache.util;
 
+import java.io.Serializable;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-import net.sf.ehcache.Cache;
-import net.sf.ehcache.CacheManager;
-import net.sf.ehcache.ObjectExistsException;
 
 import com.devinlynch.ezcache.CacheKeyCompliant;
 import com.devinlynch.ezcache.CacheReturnValue;
@@ -35,21 +29,31 @@ public class CacheableMethodHelper {
 	 * with a {@link CacheReturnValue} annotation and if the object is {@link Cacheable}.
 	 * @param o
 	 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void put(Object o) {
 		// First check to see if the method is cache-compliant
 		CacheReturnValue annotation = getAnnotation();
 		if(annotation == null || o == null)
 			return;
 		
-		if(!(o instanceof Cacheable)) {
-			throw new RuntimeException("The return type of every method described with CacheReturnValue must implement Cacheable");
+		Cacheable cacheable;
+		if(o instanceof Cacheable) {
+			// If the object is of type Cacheable, then we will be storing the object itself
+			cacheable = (Cacheable)o;
+		} else if(o instanceof Serializable) {
+			// Otherwise if it is serializeable then we will store a SimpleCacheable with the value being the object
+			cacheable = new SimpleCacheable((Serializable) o, getMappingKey(), annotation.timeToLiveSeconds(), annotation.timeToIdleSeconds());
+		} else {
+			throw new RuntimeException("The method ["+method.toGenericString()+"] must have a serializeable return type to be cacheable");
 		}
 		
-		Cacheable cacheable = (Cacheable)o;
 		try {
 			EZCache ezCache = new EZCache();
 			ezCache.put(cacheable);
-			mapMethodKeyToObject(cacheable);
+			if(o instanceof Cacheable) {
+				// If the object is of type Cacheable, we need to store a mapping of this method to the key of the object
+				mapMethodKeyToObject(cacheable);
+			}
 		} catch (Exception e) {
 			System.out.println("Error putting into cache");
 			e.printStackTrace();
@@ -63,17 +67,23 @@ public class CacheableMethodHelper {
 		CacheReturnValue annotation = getAnnotation();
 		if(annotation == null)
 			return null;
-		if(!Cacheable.class.isAssignableFrom(method.getReturnType())) {
-			throw new RuntimeException("The return type of every method described with CacheReturnValue must implement Cacheable");
-		}
 		try {
 			EZCache ezCache = new EZCache();
 			CacheableMapping mappingToObject = getMappingToObject();
-			if(mappingToObject == null)
-				return null;
-			@SuppressWarnings({ "rawtypes", "unchecked" })
-			Object object = ezCache.get(new EZCacheKey(mappingToObject.getMappedObjectId(), mappingToObject.getMappedObjectClass()));
-			return object;
+			if(mappingToObject != null) {
+				// First check to see if we have a mapping stored from the method to a cached object.  If so, we can return
+				// the mapped object
+				@SuppressWarnings({ "rawtypes", "unchecked" })
+				Object object = ezCache.get(new EZCacheKey(mappingToObject.getMappedObjectId(), mappingToObject.getMappedObjectClass()));
+				return object;
+			} else {
+				// Now check to see if there is a SimpleCacheable stored and if so we can return that
+				SimpleCacheable<?> simpleCacheable = getSimpleCacheable();
+				if(simpleCacheable != null) {
+					return simpleCacheable.getValue();
+				}
+			}
+			return null;
 		} catch (Exception e) {
 			System.out.println("Error getting from cache");
 			e.printStackTrace();
@@ -86,18 +96,24 @@ public class CacheableMethodHelper {
 		return method.getAnnotation(CacheReturnValue.class);
 	}
 	
-	public void mapMethodKeyToObject(Cacheable obj) {
+	private void mapMethodKeyToObject(Cacheable obj) {
 		CacheableMapping mapping = new CacheableMapping(obj, getMappingKey());
 		EZCache ez = new EZCache();
 		ez.put(mapping);
 	}
 	
-	public CacheableMapping getMappingToObject() {
+	private CacheableMapping getMappingToObject() {
 		EZCache ez = new EZCache();
 		CacheableMapping mapping = (CacheableMapping) ez.get(new EZCacheKey<CacheableMapping>(getMappingKey(), CacheableMapping.class));
 		return mapping;
 	}
 	
+	private SimpleCacheable<?> getSimpleCacheable() {
+		EZCache ez = new EZCache();
+		@SuppressWarnings("rawtypes")
+		SimpleCacheable<?> simple = (SimpleCacheable) ez.get(new EZCacheKey<SimpleCacheable>(getMappingKey(), SimpleCacheable.class));
+		return simple;
+	}
 	
 	protected String getMappingKey() {
 		String ps = "";
