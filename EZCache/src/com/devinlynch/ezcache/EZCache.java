@@ -17,7 +17,7 @@ public class EZCache {
 	 * @return
 	 */
 	private void putIntoCache(Cacheable val) {
-		if(val == null)
+		if(val == null || val.getCacheKey() == null)
 			return;
 		@SuppressWarnings({ "unchecked", "rawtypes" })
 		EZCacheKey<?> objectKey = new EZCacheKey(val.getCacheKey(), val.getClass());
@@ -36,6 +36,8 @@ public class EZCache {
 	 * @return
 	 */
 	private Object getFromCache(EZCacheKey<?> key) {
+		if(key == null || key.getKey() == null)
+			return null;
 		Cache cache = getOrCreateCache(key.getCacheableClass());
 		Element e = cache.get(key);
 		if(e == null)
@@ -73,6 +75,8 @@ public class EZCache {
 	 * Delete an object from the cache 
 	 */
 	public void delete(EZCacheKey<?> key) {
+		if(key == null)
+			return;
 		deleteFromCache(key);
 	}
 	
@@ -81,6 +85,8 @@ public class EZCache {
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public void delete(Cacheable obj) {
+		if(obj.getCacheKey() == null)
+			return;
 		deleteFromCache(new EZCacheKey(obj.getCacheKey(), obj.getClass()));
 	}
 	
