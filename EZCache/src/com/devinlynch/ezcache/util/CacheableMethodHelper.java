@@ -115,21 +115,27 @@ public class CacheableMethodHelper {
 		return simple;
 	}
 	
+	/**
+	 * Gets a unique key for the method and the values of its arguments.
+	 * @return
+	 */
 	protected String getMappingKey() {
 		String ps = "";
 		for(Class<?> c : method.getParameterTypes()) {
 			ps += c.getName();
 		}
 		String a = "";
-		for(Object o: args) {
-			String val = null;
-			if(o != null) {
-				val = o.toString();
-				if(o instanceof CacheKeyCompliant) {
-					val = ((CacheKeyCompliant)o).getCacheKey();
+		if(args != null) {
+			for(Object o: args) {
+				String val = null;
+				if(o != null) {
+					val = o.toString();
+					if(o instanceof CacheKeyCompliant) {
+						val = ((CacheKeyCompliant)o).getCacheKey();
+					}
 				}
+				a+= val + ",";
 			}
-			a+= val + ",";
 		}
 		return "EZCache[METHODMAPPING:methodHashCode=[hc=["+method.hashCode()+"]numP=["+method.getParameterTypes().length+"]ps=["+ps+"]args=["+a+"]]]";	
 	}

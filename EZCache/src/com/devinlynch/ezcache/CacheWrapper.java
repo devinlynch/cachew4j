@@ -63,19 +63,21 @@ public class CacheWrapper implements InvocationHandler {
 	@Override
 	public Object invoke(Object proxy, Method method, Object[] args)
 			throws Throwable {
+		if(method.getAnnotation(CacheReturnValue.class) == null)
+			return method.invoke(serviceToWrap, args);
 		
 		// Check to see if the result is held in cache, if so return it
 		CacheableMethodHelper helper = new CacheableMethodHelper(describedClass.getMethod(method.getName(), method.getParameterTypes()), args);
 		Object cachedObject = helper.get();
 		if(cachedObject != null) {
-			System.out.println("Read from cache");
+			System.out.println("Read from cache for method: "+method.getName());
 			return cachedObject;
 		}
 		
 		Object result = method.invoke(serviceToWrap, args);
 		// But the result in cache if its not null
 		if(result != null) {
-			System.out.println("Put into cache");
+			System.out.println("Put into cache for method: "+method.getName());
 			helper.put(result); 
 		}
 		return result;
