@@ -1,11 +1,11 @@
-package com.devinlynch.ezcache.stubbing;
+package com.devinlynch.cachew.stubbing;
 
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.devinlynch.ezcache.annotations.CacheReturnValue;
-import com.devinlynch.ezcache.util.MethodAndArgs;
+import com.devinlynch.cachew.annotations.CacheReturnValue;
+import com.devinlynch.cachew.util.MethodAndArgs;
 
 import net.sf.cglib.proxy.Enhancer;
 import net.sf.cglib.proxy.MethodInterceptor;

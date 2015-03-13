@@ -1,4 +1,4 @@
-package com.devinlynch.ezcache.annotations;
+package com.devinlynch.cachew.annotations;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

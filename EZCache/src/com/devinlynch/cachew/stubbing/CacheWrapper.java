@@ -1,4 +1,4 @@
-package com.devinlynch.ezcache.stubbing;
+package com.devinlynch.cachew.stubbing;
 
 import java.lang.reflect.Method;
 
@@ -6,8 +6,8 @@ import net.sf.cglib.proxy.Enhancer;
 import net.sf.cglib.proxy.MethodInterceptor;
 import net.sf.cglib.proxy.MethodProxy;
 
-import com.devinlynch.ezcache.annotations.CacheReturnValue;
-import com.devinlynch.ezcache.util.CacheableMethodHelper;
+import com.devinlynch.cachew.annotations.CacheReturnValue;
+import com.devinlynch.cachew.util.CacheableMethodHelper;
 
 /**
  * Wraps any Object (usually a service) who has methods described with the {@link CacheReturnValue}

@@ -1,4 +1,4 @@
-package com.devinlynch.ezcache.util;
+package com.devinlynch.cachew.util;
 
 import java.lang.reflect.Method;
 

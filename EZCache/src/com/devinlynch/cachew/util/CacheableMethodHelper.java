@@ -1,13 +1,13 @@
-package com.devinlynch.ezcache.util;
+package com.devinlynch.cachew.util;
 
 import java.io.Serializable;
 import java.lang.reflect.Method;
 
-import com.devinlynch.ezcache.annotations.CacheReturnValue;
-import com.devinlynch.ezcache.caching.CacheHandler;
-import com.devinlynch.ezcache.caching.EZCacheKey;
-import com.devinlynch.ezcache.interfaces.CacheKeyCompliant;
-import com.devinlynch.ezcache.interfaces.Cacheable;
+import com.devinlynch.cachew.annotations.CacheReturnValue;
+import com.devinlynch.cachew.caching.CacheHandler;
+import com.devinlynch.cachew.caching.CachewKey;
+import com.devinlynch.cachew.interfaces.CacheKeyCompliant;
+import com.devinlynch.cachew.interfaces.Cacheable;
 
 /**
  * A helper class which can put or get objects from a cache if a method is described with
@@ -74,7 +74,7 @@ public class CacheableMethodHelper {
 				// First check to see if we have a mapping stored from the method to a cached object.  If so, we can return
 				// the mapped object
 				@SuppressWarnings({ "rawtypes", "unchecked" })
-				Object object = ezCache.get(new EZCacheKey(mappingToObject.getMappedObjectId(), mappingToObject.getMappedObjectClass()));
+				Object object = ezCache.get(new CachewKey(mappingToObject.getMappedObjectId(), mappingToObject.getMappedObjectClass()));
 				return object;
 			} else {
 				// Now check to see if there is a SimpleCacheable stored and if so we can return that
@@ -98,8 +98,8 @@ public class CacheableMethodHelper {
 			CacheableMapping mappingToObject = getMappingToObject();
 			if(mappingToObject != null) {
 				// If there is a mapping to another object, delete the mapping then delete the linked object
-				ezCache.delete(new EZCacheKey(getMappingKey(), CacheableMapping.class));
-				ezCache.delete(new EZCacheKey(mappingToObject.getMappedObjectId(), mappingToObject.getMappedObjectClass()));
+				ezCache.delete(new CachewKey(getMappingKey(), CacheableMapping.class));
+				ezCache.delete(new CachewKey(mappingToObject.getMappedObjectId(), mappingToObject.getMappedObjectClass()));
 			} else {
 				// Otherwise delete the simple cacheable object
 				deleteSimpleCacheable();
@@ -123,21 +123,21 @@ public class CacheableMethodHelper {
 	
 	private CacheableMapping getMappingToObject() {
 		CacheHandler ez = new CacheHandler();
-		CacheableMapping mapping = (CacheableMapping) ez.get(new EZCacheKey<CacheableMapping>(getMappingKey(), CacheableMapping.class));
+		CacheableMapping mapping = (CacheableMapping) ez.get(new CachewKey<CacheableMapping>(getMappingKey(), CacheableMapping.class));
 		return mapping;
 	}
 	
 	private SimpleCacheable<?> getSimpleCacheable() {
 		CacheHandler ez = new CacheHandler();
 		@SuppressWarnings("rawtypes")
-		SimpleCacheable<?> simple = (SimpleCacheable) ez.get(new EZCacheKey<SimpleCacheable>(getMappingKey(), SimpleCacheable.class));
+		SimpleCacheable<?> simple = (SimpleCacheable) ez.get(new CachewKey<SimpleCacheable>(getMappingKey(), SimpleCacheable.class));
 		return simple;
 	}
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private void deleteSimpleCacheable() {
 		CacheHandler ez = new CacheHandler();
-		ez.delete(new EZCacheKey(getMappingKey(), SimpleCacheable.class));
+		ez.delete(new CachewKey(getMappingKey(), SimpleCacheable.class));
 	}
 	
 	/**

@@ -1,7 +1,7 @@
-package com.devinlynch.ezcache.stubbing;
+package com.devinlynch.cachew.stubbing;
 
-import com.devinlynch.ezcache.util.CacheableMethodHelper;
-import com.devinlynch.ezcache.util.MethodAndArgs;
+import com.devinlynch.cachew.util.CacheableMethodHelper;
+import com.devinlynch.cachew.util.MethodAndArgs;
 
 public class MockCacheOptions {
 	

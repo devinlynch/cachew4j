@@ -1,4 +1,4 @@
-package com.devinlynch.ezcache.interfaces;
+package com.devinlynch.cachew.interfaces;
 
 /**
  * A class that can be represented using a string key.

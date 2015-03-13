@@ -1,19 +1,19 @@
-package com.devinlynch.ezcache;
+package com.devinlynch.cachew;
 
-import static com.devinlynch.ezcache.EZCache.*;
+import static com.devinlynch.cachew.Cachew.*;
 import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import com.devinlynch.ezcache.annotations.CacheReturnValue;
-import com.devinlynch.ezcache.interfaces.Cacheable;
+import com.devinlynch.cachew.annotations.CacheReturnValue;
+import com.devinlynch.cachew.interfaces.Cacheable;
 
 /**
  * Obviously a lot more testing needs to be done...
  * @author devinlynch
  *
  */
-public class EZCacheTest {
+public class CachewTest {
 
 	
 	

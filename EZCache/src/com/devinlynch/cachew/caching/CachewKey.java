@@ -1,15 +1,15 @@
-package com.devinlynch.ezcache.caching;
+package com.devinlynch.cachew.caching;
 
 import java.io.Serializable;
 
-import com.devinlynch.ezcache.interfaces.Cacheable;
+import com.devinlynch.cachew.interfaces.Cacheable;
 
-public class EZCacheKey<CACHEABLE_CLASS_TYPE extends Cacheable> implements Serializable {
+public class CachewKey<CACHEABLE_CLASS_TYPE extends Cacheable> implements Serializable {
 	private static final long serialVersionUID = 4627647677083982011L;
 	private Class<? extends CACHEABLE_CLASS_TYPE> cacheableClass;
 	private String key;
 	
-	public EZCacheKey(String key, Class<? extends CACHEABLE_CLASS_TYPE> clazz) {
+	public CachewKey(String key, Class<? extends CACHEABLE_CLASS_TYPE> clazz) {
 		this.cacheableClass = clazz;
 		this.key = key;
 	}
@@ -24,10 +24,10 @@ public class EZCacheKey<CACHEABLE_CLASS_TYPE extends Cacheable> implements Seria
 	
 	@Override
 	public boolean equals(Object o) {
-		if(! (o instanceof EZCacheKey))
+		if(! (o instanceof CachewKey))
 			return false;
 		
-		EZCacheKey<?> k = (EZCacheKey<?>)o;
+		CachewKey<?> k = (CachewKey<?>)o;
 		return k.getClass().equals(getClass()) && k.getKey().equals(getKey());
 	}
 	

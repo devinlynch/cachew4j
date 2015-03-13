@@ -1,6 +1,6 @@
-package com.devinlynch.ezcache.caching;
+package com.devinlynch.cachew.caching;
 
-import com.devinlynch.ezcache.interfaces.Cacheable;
+import com.devinlynch.cachew.interfaces.Cacheable;
 
 import net.sf.ehcache.Cache;
 import net.sf.ehcache.CacheManager;
@@ -22,7 +22,7 @@ public class CacheHandler {
 		if(val == null || val.getCacheKey() == null)
 			return;
 		@SuppressWarnings({ "unchecked", "rawtypes" })
-		EZCacheKey<?> objectKey = new EZCacheKey(val.getCacheKey(), val.getClass());
+		CachewKey<?> objectKey = new CachewKey(val.getCacheKey(), val.getClass());
 		Cache cache = getOrCreateCache(val.getClass());
 		Element actualCacheElement = new Element(objectKey, val);
 		actualCacheElement.setTimeToIdle(val.getTimeToIdleSeconds());
@@ -37,7 +37,7 @@ public class CacheHandler {
 	 * @param key
 	 * @return
 	 */
-	private Object getFromCache(EZCacheKey<?> key) {
+	private Object getFromCache(CachewKey<?> key) {
 		if(key == null || key.getKey() == null)
 			return null;
 		Cache cache = getOrCreateCache(key.getCacheableClass());
@@ -47,7 +47,7 @@ public class CacheHandler {
 		return e.getObjectValue();
 	}
 	
-	private void deleteFromCache(EZCacheKey<?> key) {
+	private void deleteFromCache(CachewKey<?> key) {
 		Cache cache = getOrCreateCache(key.getCacheableClass());
 		cache.remove(key);
 	}
@@ -59,7 +59,7 @@ public class CacheHandler {
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
-	public<T> T get(EZCacheKey<? extends T> key) {
+	public<T> T get(CachewKey<? extends T> key) {
 		if(key == null)
 			return null;
 		return (T) getFromCache(key);
@@ -76,7 +76,7 @@ public class CacheHandler {
 	/**
 	 * Delete an object from the cache 
 	 */
-	public void delete(EZCacheKey<?> key) {
+	public void delete(CachewKey<?> key) {
 		if(key == null)
 			return;
 		deleteFromCache(key);
@@ -89,7 +89,7 @@ public class CacheHandler {
 	public void delete(Cacheable obj) {
 		if(obj.getCacheKey() == null)
 			return;
-		deleteFromCache(new EZCacheKey(obj.getCacheKey(), obj.getClass()));
+		deleteFromCache(new CachewKey(obj.getCacheKey(), obj.getClass()));
 	}
 	
 	public String getCacheName(Class<?> cachedObjectClass) {
