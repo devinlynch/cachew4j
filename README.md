@@ -31,6 +31,6 @@ Cachew is a caching framework that extends the functionality of Ehcache to make 
    ```java
    FooService objectThatHasCachingLayer = cache(new FooService());
    Object result1 = objectThatHasCachingLayer.bar("1");
-   Obejct result2 = objectThatHasCachingLayer.bar("1");
+   Object result2 = objectThatHasCachingLayer.bar("1");
    assertEquals(result1, result2); // This will assert true, I promise.
    ```
