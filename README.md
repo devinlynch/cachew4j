@@ -7,7 +7,15 @@ Cachew is a caching framework that extends the functionality of Ehcache to make 
 
 ## How to eat it?
 
-First import the static Cachew methods:
+1. First import the static Cachew methods:
 ```java
 import static com.devinlynch.cachew.Cachew.*
+```
+
+2. Figure out what method you want the return value to be cached for.  Add the @CacheReturnValue annotation to this method
+```java
+@CacheReturnValue
+public void foo(String id) {
+   // To some work and return a result
+}
 ```
