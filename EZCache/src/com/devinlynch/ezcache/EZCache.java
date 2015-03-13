@@ -8,10 +8,9 @@ public class EZCache {
 	
 	/**
 	 * Call this to wrap an object with a caching layer.  The first parameter is the object that you want to
-	 * wrap. The second parameter is the class which contains the annotated descriptions 
-	 * and which also implements the interface.  If the class of the object you are wrapping is exactly the
-	 * same as the class that has your annotations, then use the other {@link EZCache#cache(Object)} 
-	 * method.
+	 * wrap. The second parameter is the class which contains the annotated descriptions.  If the class of the 
+	 * object you are wrapping is exactly the same as the class that has your annotations, then use the other 
+	 * {@link EZCache#cache(Object)} method.
 	 * @param service
 	 * @param interfaceClass
 	 * @param describedClass

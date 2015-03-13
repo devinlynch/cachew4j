@@ -1,6 +1,6 @@
 package com.devinlynch.ezcache;
 
-import static com.devinlynch.ezcache.EZCache.cache;
+import static com.devinlynch.ezcache.EZCache.*;
 import static org.junit.Assert.*;
 
 import org.junit.Test;
@@ -64,7 +64,7 @@ public class EZCacheTest {
 	} 
 	
 	@Test
-	public void t1() {
+	public void testWrappedCache() {
 		IFoo foo = cache(new Foo());
 		
 		String text1 = foo.doit("blah").text;
@@ -73,4 +73,44 @@ public class EZCacheTest {
 		assertEquals(text1, text2);
 	}
 
+	@Test
+	public void testDelete() {
+		IFoo foo = cache(new Foo());
+		Foo mock = mock(new Foo());
+		forKeyGeneratedBy(mock.doit("blah")).delete();
+		
+		String text1 = foo.doit("blah").text;
+		
+		forKeyGeneratedBy(mock.doit("blah")).delete();
+		
+		String text2 = foo.doit("blah").text;
+		
+		assertNotEquals(text1, text2);
+	}
+	
+	@Test
+	public void testPut() {
+		IFoo foo = cache(new Foo());
+		Foo mock = mock(new Foo());
+		final String key ="testPut";
+		final String val = "asdf";
+		forKeyGeneratedBy(mock.doit(key)).delete();
+		forKeyGeneratedBy(mock.doit(key)).put(new Bar(val));
+		
+		String text2 = foo.doit(key).text;
+		
+		assertEquals(val, text2);
+	}
+	
+	@Test
+	public void testGet() {
+		Foo mock = mock(new Foo());
+		final String key ="testGet";
+		final String val = "asdf";
+		forKeyGeneratedBy(mock.doit(key)).delete();
+		forKeyGeneratedBy(mock.doit(key)).put(new Bar(val));
+		String text2 = ((Bar) forKeyGeneratedBy(mock.doit(key)).get()).text;
+		
+		assertEquals(val, text2);
+	}
 }

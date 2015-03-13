@@ -72,14 +72,12 @@ public class CacheWrapper implements MethodInterceptor {
 		CacheableMethodHelper helper = new CacheableMethodHelper(describedMethod, args);
 		Object cachedObject = helper.get();
 		if(cachedObject != null) {
-			System.out.println("Read from cache for method: "+method.getName());
 			return cachedObject;
 		}
 		
 		Object result = method.invoke(serviceToWrap, args);
 		// But the result in cache if its not null
 		if(result != null) {
-			System.out.println("Put into cache for method: "+method.getName());
 			helper.put(result); 
 		}
 		return result;
