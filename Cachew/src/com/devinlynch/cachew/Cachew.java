@@ -11,9 +11,12 @@ public class Cachew {
 	 * wrap. The second parameter is the class which contains the annotated descriptions.  If the class of the 
 	 * object you are wrapping is exactly the same as the class that has your annotations, then use the other 
 	 * {@link Cachew#cache(Object)} method.
-	 * @param service
-	 * @param interfaceClass
-	 * @param describedClass
+	 * @param service The object which will be wrapped with a caching layer
+	 * @param describedClass The class which contains methods that have caching annotations.  This class <b>MUST</b>
+	 * have <b>EVERY</b> method that the service object has. That is, this class must be equal to the service object's
+	 * class OR be a subclass of the service object's class OR be an interface which the service object's class
+	 * implements however the service object class does not have any other methods than those of the interface.
+	 * of 
 	 * @return
 	 */
 	public static<T> T cache(
@@ -25,9 +28,7 @@ public class Cachew {
 	/**
 	 * Call this to wrap an object with a caching layer.  It is assumed that the class of the object passed will
 	 * have the annotations required for caching.
-	 * @param service
-	 * @param interfaceClass
-	 * @param describedClass
+	 * @param service The object which will be wrapped with a caching layer
 	 * @return
 	 */
 	public static<T> T cache(
