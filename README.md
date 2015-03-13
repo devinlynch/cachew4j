@@ -9,5 +9,5 @@ Cachew is a caching framework that extends the functionality of Ehcache to make 
 
 First import the static Cachew methods:
 ```java
-com.devinlynch.cachew.Cachew.*
+import static com.devinlynch.cachew.Cachew.*
 ```
