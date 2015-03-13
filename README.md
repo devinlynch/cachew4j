@@ -16,7 +16,7 @@ Cachew is a caching framework that extends the functionality of Ehcache to make 
    ```java
    public class FooService {
       @CacheReturnValue
-      public void bar(String id) {
+      public Object bar(String id) {
          // To some work and return a result
       }
    }
@@ -25,4 +25,12 @@ Cachew is a caching framework that extends the functionality of Ehcache to make 
 3. Once you have an instance of the object that contains methods you want cached, we need to wrap it with a caching layer.  use the static cache(Object o) method.
    ```java
    FooService objectThatHasCachingLayer = cache(new FooService());
+   ```
+   
+4.  Noe invoke the method that you enabled caching for on the return object.  The first time you call it, the value that is returned will be stored in cache mapped to the parameters given to the method.  The second time you call it, with the same parameters as the first time, the object will be retrieved from cache.  Awesome, eh!?
+   ```java
+   FooService objectThatHasCachingLayer = cache(new FooService());
+   Object result1 = objectThatHasCachingLayer.bar("1");
+   Obejct result2 = objectThatHasCachingLayer.bar("1");
+   assertEquals(result1, result2); // This will assert true, I promise.
    ```
