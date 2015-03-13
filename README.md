@@ -27,7 +27,7 @@ Cachew is a caching framework that extends the functionality of Ehcache to make 
    FooService objectThatHasCachingLayer = cache(new FooService());
    ```
    
-4.  Noe invoke the method that you enabled caching for on the return object.  The first time you call it, the value that is returned will be stored in cache mapped to the parameters given to the method.  The second time you call it, with the same parameters as the first time, the object will be retrieved from cache.  Awesome, eh!?
+4.  Now invoke the method that you enabled caching for on the return object.  The first time you call it, the value that is returned will be stored in cache mapped to the parameters given to the method.  The second time you call it, with the same parameters as the first time, the object will be retrieved from cache.  Awesome, eh!?
    ```java
    FooService objectThatHasCachingLayer = cache(new FooService());
    Object result1 = objectThatHasCachingLayer.bar("1");
