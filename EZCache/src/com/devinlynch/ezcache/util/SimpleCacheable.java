@@ -2,7 +2,7 @@ package com.devinlynch.ezcache.util;
 
 import java.io.Serializable;
 
-import com.devinlynch.ezcache.Cacheable;
+import com.devinlynch.ezcache.interfaces.Cacheable;
 
 public class SimpleCacheable<T extends Serializable> implements Cacheable {
 	private static final long serialVersionUID = 1L;

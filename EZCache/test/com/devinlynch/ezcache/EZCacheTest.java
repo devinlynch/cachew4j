@@ -1,8 +1,21 @@
 package com.devinlynch.ezcache;
 
-import java.lang.reflect.Method;
+import static com.devinlynch.ezcache.EZCache.cache;
+import static org.junit.Assert.*;
 
-public class TestClass {
+import org.junit.Test;
+
+import com.devinlynch.ezcache.annotations.CacheReturnValue;
+import com.devinlynch.ezcache.interfaces.Cacheable;
+
+/**
+ * Obviously a lot more testing needs to be done...
+ * @author devinlynch
+ *
+ */
+public class EZCacheTest {
+
+	
 	
 	public static class Bar implements Cacheable {
 		private static final long serialVersionUID = 1L;
@@ -48,23 +61,16 @@ public class TestClass {
 		public String doit2(String s) {
 			return s + (z++);
 		}
-	}
+	} 
 	
-	public static void main(String[] args) {
-		IFoo foo = CacheWrapper.wrapObject(new Foo(), IFoo.class, Foo.class);
+	@Test
+	public void t1() {
+		IFoo foo = cache(new Foo());
 		
-		System.out.println(foo.doit("blah").text);
-		System.out.println(foo.doit("blah").text);
-		System.out.println(foo.doit("foo").text);
-		System.out.println(foo.doit("foo").text);
-		System.out.println(foo.doit("blah").text);
+		String text1 = foo.doit("blah").text;
+		String text2 = foo.doit("blah").text;
 		
-		System.out.println("------");
-		System.out.println(foo.doit2("blah"));
-		System.out.println(foo.doit2("blah"));
-		System.out.println(foo.doit2("blah2"));
-		System.out.println(foo.doit2("blah"));
+		assertEquals(text1, text2);
 	}
-	
 
 }

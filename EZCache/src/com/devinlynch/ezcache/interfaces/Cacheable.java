@@ -1,4 +1,4 @@
-package com.devinlynch.ezcache;
+package com.devinlynch.ezcache.interfaces;
 
 import java.io.Serializable;
 

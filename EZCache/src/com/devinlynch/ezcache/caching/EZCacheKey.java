@@ -1,6 +1,8 @@
-package com.devinlynch.ezcache;
+package com.devinlynch.ezcache.caching;
 
 import java.io.Serializable;
+
+import com.devinlynch.ezcache.interfaces.Cacheable;
 
 public class EZCacheKey<CACHEABLE_CLASS_TYPE extends Cacheable> implements Serializable {
 	private static final long serialVersionUID = 4627647677083982011L;

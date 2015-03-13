@@ -1,6 +1,6 @@
 package com.devinlynch.ezcache.util;
 
-import com.devinlynch.ezcache.Cacheable;
+import com.devinlynch.ezcache.interfaces.Cacheable;
 
 /**
  * Utility class for mapping a custom key to a cached object
