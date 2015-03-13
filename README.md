@@ -3,7 +3,7 @@ Instead of having to crack the shell, just use cachew and get the nuts you use m
 
 ## Why eat it?
 
-Cachew is a caching framework that extends the functionality of Ehcache to make caching extremely clean and tasty.  It requires almost no configurations and the caching is done automatically for you!  It is based on the idea that things that you want cached usually come from a specific method.  For example when you have a service object, you may want to cache the result of one of the objects methods which gets some data from a persitance store.  The typical workflow for adding caching to this method would be:
+Cachew is a caching framework that extends the functionality of Ehcache to make caching extremely clean and tasty.  It requires almost no configurations and the caching is done automatically for you!  It is based on the idea that things that you want cached usually come from a specific method.  For example when you have a service object, you may want to cache the result of one of the object's methods which gets some data from a persitance store.  The typical workflow for adding caching to this method would be:
 
 1. At the beginning of the method check if the object is in cache.  If so, return it.
 2. Otherwise, do some work and then store the object in a cache
