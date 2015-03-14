@@ -1,6 +1,7 @@
 package com.devinlynch.cachew.stubbing;
 
 import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
 
 import net.sf.cglib.proxy.Enhancer;
 import net.sf.cglib.proxy.MethodInterceptor;
@@ -24,12 +25,12 @@ public class CacheWrapper implements MethodInterceptor {
 	@SuppressWarnings("unchecked")
 	public static<T> T cache(
 			T service, 
+			Class<T> clazz,
 			Class<?> describedClass) {
-		
 		CacheWrapper wrapper = new CacheWrapper(service, describedClass);
 		
 		Enhancer enhancer = new Enhancer();
-        enhancer.setSuperclass(service.getClass());
+        enhancer.setSuperclass(clazz);
         enhancer.setCallback(wrapper);
 		
 		return (T) enhancer.create();
@@ -60,7 +61,7 @@ public class CacheWrapper implements MethodInterceptor {
 	@Override
 	public Object intercept(Object object, Method method, Object[] args, MethodProxy methodProxy)
 			throws Throwable {
-		if(method.getAnnotation(CacheReturnValue.class) == null)
+		if(describedClass.getMethod(method.getName(), method.getParameterTypes()).getAnnotation(CacheReturnValue.class) == null)
 			return method.invoke(serviceToWrap, args);
 		
 		Method describedMethod = describedClass.getMethod(method.getName(), method.getParameterTypes());
@@ -72,12 +73,14 @@ public class CacheWrapper implements MethodInterceptor {
 		CacheableMethodHelper helper = new CacheableMethodHelper(describedMethod, args);
 		Object cachedObject = helper.get();
 		if(cachedObject != null) {
+			System.out.println("Got from cache for: "+method.getName());
 			return cachedObject;
 		}
 		
 		Object result = method.invoke(serviceToWrap, args);
 		// But the result in cache if its not null
 		if(result != null) {
+			System.out.println("Put in cache for: "+method.getName());
 			helper.put(result); 
 		}
 		return result;
