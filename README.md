@@ -20,9 +20,11 @@ Cachew removes this manual labour and does the caching behind the scenes with th
 2. Figure out what method you want the return value to be cached for.  Add the @CacheReturnValue annotation to this method
    ```java
    public class FooService {
+      int counter = 0;
       @CacheReturnValue
-      public Object bar(String id) {
-         // To some work and return a result
+      public Integer bar(String id) {
+         counter++;
+         return counter;
       }
    }
    ```
@@ -35,7 +37,7 @@ Cachew removes this manual labour and does the caching behind the scenes with th
 4.  Now invoke the method that you enabled caching for.  The first time you call it, the value that is returned will be stored in cache mapped to the parameters given to the method.  The second time you call it, with the same parameters as the first time, the object will be retrieved from cache.  Awesome, eh!?
    ```java
    FooService objectThatHasCachingLayer = cache(new FooService());
-   Object result1 = objectThatHasCachingLayer.bar("1");
-   Object result2 = objectThatHasCachingLayer.bar("1");
+   Integer result1 = objectThatHasCachingLayer.bar("1");
+   Integer result2 = objectThatHasCachingLayer.bar("1");
    assertEquals(result1, result2); // This will assert true, I promise.
    ```
