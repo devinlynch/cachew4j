@@ -59,3 +59,9 @@ Cachew removes this manual labour and does the caching behind the scenes with th
    forKeyGeneratedBy(mock.bar("1234")).delete();
    // The cache will now be empty
    ```
+
+
+1. First import the static Cachew methods:
+   ```java
+   import static com.devinlynch.cachew.Cachew.*
+   ```
