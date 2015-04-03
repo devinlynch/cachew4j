@@ -33,7 +33,7 @@ Cachew removes this manual labour and does the caching behind the scenes with th
    ```java
    FooService objectThatHasCachingLayer = cache(new FooService());
    ```
-   
+
 4. Now invoke the method that you enabled caching for.  The first time you call it, the value that is returned will be stored in cache mapped to the parameters given to the method.  The second time you call it, with the same parameters as the first time, the object will be retrieved from cache.  Awesome, eh!?
    ```java
    FooService objectThatHasCachingLayer = cache(new FooService());
@@ -50,23 +50,14 @@ Cachew removes this manual labour and does the caching behind the scenes with th
    Integer result = objectThatHasCachingLayer.bar("1234");
    // The result of bar("1234") is stored in cache for the next time its invoked
    ```
+
 2. Create a mock object of a new instance of the class of your object from step 1
    ```java
+   FooService mock = mock(new FooService());
    ```
+
 3. Delete from the cache through your mock object with the same arguments given in step 1
    ```java
    forKeyGeneratedBy(mock.bar("1234")).delete();
    // The cache will now be empty
-   ```
-
-
-1. Wrap your object with a caching layer and invoke a method to cause the result to be stored in cache
-   ```java
-   FooService objectThatHasCachingLayer = cache(new FooService());
-   Integer result = objectThatHasCachingLayer.bar("1234");
-   // The result of bar("1234") is stored in cache for the next time its invoked
-   ```
-2. Create a mock object of a new instance of the class of your object from step 1
-   ```java
-   FooService mock = mock(new FooService());
    ```
