@@ -43,7 +43,7 @@ Cachew removes this manual labour and does the caching behind the scenes with th
    ```
 
 ### Deleting
-
+ 
 1. Wrap your object with a caching layer and invoke a method to cause the result to be stored in cache
    ```java
    FooService objectThatHasCachingLayer = cache(new FooService());
@@ -58,7 +58,4 @@ Cachew removes this manual labour and does the caching behind the scenes with th
    ```java
    forKeyGeneratedBy(mock.bar("1234")).delete();
    // The cache will now be empty
-   ```
-   ```java
-   FooService objectThatHasCachingLayer = cache(new FooService());
    ```
