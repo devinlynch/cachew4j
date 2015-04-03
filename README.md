@@ -48,6 +48,7 @@ Cachew removes this manual labour and does the caching behind the scenes with th
    ```java
    FooService objectThatHasCachingLayer = cache(new FooService());
    Integer result = objectThatHasCachingLayer.bar("1234");
+   // The result of bar("1234") is stored in cache for the next time its invoked
    ```
 2. Create a mock object of a new instance of the class of your object from step 1
    ```java
