@@ -34,7 +34,7 @@ Cachew removes this manual labour and does the caching behind the scenes with th
    FooService objectThatHasCachingLayer = cache(new FooService());
    ```
    
-4.  Now invoke the method that you enabled caching for.  The first time you call it, the value that is returned will be stored in cache mapped to the parameters given to the method.  The second time you call it, with the same parameters as the first time, the object will be retrieved from cache.  Awesome, eh!?
+4. Now invoke the method that you enabled caching for.  The first time you call it, the value that is returned will be stored in cache mapped to the parameters given to the method.  The second time you call it, with the same parameters as the first time, the object will be retrieved from cache.  Awesome, eh!?
    ```java
    FooService objectThatHasCachingLayer = cache(new FooService());
    Integer result1 = objectThatHasCachingLayer.bar("1");
@@ -42,7 +42,7 @@ Cachew removes this manual labour and does the caching behind the scenes with th
    assertEquals(result1, result2); // This will assert true, I promise.
    ```
 
-### Deleting
+## Deleting
  
 1. Wrap your object with a caching layer and invoke a method to cause the result to be stored in cache
    ```java
