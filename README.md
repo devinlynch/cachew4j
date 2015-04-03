@@ -61,7 +61,4 @@ Cachew removes this manual labour and does the caching behind the scenes with th
    ```
 
 
-1. First import the static Cachew methods:
-   ```java
-   FooService objectThatHasCachingLayer = cache(new FooService());
-   ```
+
