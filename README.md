@@ -52,7 +52,6 @@ Cachew removes this manual labour and does the caching behind the scenes with th
    ```
 2. Create a mock object of a new instance of the class of your object from step 1
    ```java
-   FooService mock = mock(new FooService());
    ```
 3. Delete from the cache through your mock object with the same arguments given in step 1
    ```java
