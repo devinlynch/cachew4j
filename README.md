@@ -1,5 +1,5 @@
 # cachew4j
-Instead of having to crack the shell, just use cachew and get the nuts you use most often
+Instead of having to crack the shell, just use cachew and get the nuts you use most often.
 
 ## Why eat it?
 
@@ -8,7 +8,7 @@ Cachew is a caching framework that extends the functionality of Ehcache to make 
 1. At the beginning of the method check if the object is in cache.  If so, return it.
 2. Otherwise, do some work and then store the object in a cache
  
-Cachew removes this manual labour and does the caching behind the scenes with the aid of proxies.
+Cachew removes this manual labour and does the caching behind the scenes with the aid of proxies.  This style of programming is known as aspect-oriented programming.  
 
 ## How to eat it?
 
