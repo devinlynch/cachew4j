@@ -59,3 +59,6 @@ Cachew removes this manual labour and does the caching behind the scenes with th
    forKeyGeneratedBy(mock.bar("1234")).delete();
    // The cache will now be empty
    ```
+   ```java
+   FooService objectThatHasCachingLayer = cache(new FooService());
+   ```
