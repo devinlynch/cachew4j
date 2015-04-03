@@ -41,3 +41,21 @@ Cachew removes this manual labour and does the caching behind the scenes with th
    Integer result2 = objectThatHasCachingLayer.bar("1");
    assertEquals(result1, result2); // This will assert true, I promise.
    ```
+
+### Deleting
+
+1. Wrap your object with a caching layer and invoke a method to cause the result to be stored in cache
+   ```java
+   FooService objectThatHasCachingLayer = cache(new FooService());
+   Integer result = objectThatHasCachingLayer.bar("1234");
+   // The result of bar("1234") is stored in cache for the next time its invoked
+   ```
+2. Create a mock object of a new instance of the class of your object from step 1
+   ```java
+   FooService mock = mock(new FooService());
+   ```
+3. Delete from the cache through your mock object with the same arguments given in step 1
+   ```java
+   forKeyGeneratedBy(mock.bar("1234")).delete();
+   // The cache will now be empty
+   ```
