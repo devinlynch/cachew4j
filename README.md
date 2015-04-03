@@ -61,4 +61,9 @@ Cachew removes this manual labour and does the caching behind the scenes with th
    ```
 
 
-
+1. Wrap your object with a caching layer and invoke a method to cause the result to be stored in cache
+   ```java
+   FooService objectThatHasCachingLayer = cache(new FooService());
+   Integer result = objectThatHasCachingLayer.bar("1234");
+   // The result of bar("1234") is stored in cache for the next time its invoked
+   ```
