@@ -1,7 +1,7 @@
 package com.devinlynch.cachew.stubbing;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.lang.reflect.Proxy;
 
 import net.sf.cglib.proxy.Enhancer;
 import net.sf.cglib.proxy.MethodInterceptor;
@@ -61,8 +61,13 @@ public class CacheWrapper implements MethodInterceptor {
 	@Override
 	public Object intercept(Object object, Method method, Object[] args, MethodProxy methodProxy)
 			throws Throwable {
-		if(describedClass.getMethod(method.getName(), method.getParameterTypes()).getAnnotation(CacheReturnValue.class) == null)
-			return method.invoke(serviceToWrap, args);
+		if(describedClass.getMethod(method.getName(), method.getParameterTypes()).getAnnotation(CacheReturnValue.class) == null) {
+			try {
+				return method.invoke(serviceToWrap, args);
+			} catch(InvocationTargetException e) {
+				throw e.getCause();
+			}
+		}
 		
 		Method describedMethod = describedClass.getMethod(method.getName(), method.getParameterTypes());
 		if(describedMethod == null) {
@@ -77,7 +82,14 @@ public class CacheWrapper implements MethodInterceptor {
 			return cachedObject;
 		}
 		
-		Object result = method.invoke(serviceToWrap, args);
+		Object result = null;
+		try {
+			result = method.invoke(serviceToWrap, args);
+		} catch(InvocationTargetException e) {
+			throw e.getCause();
+		}
+		
+		
 		// But the result in cache if its not null
 		if(result != null) {
 			//System.out.println("Put in cache for: "+method.getName());
